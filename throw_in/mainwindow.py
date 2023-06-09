@@ -1,6 +1,7 @@
 import os
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QWidget
+from throw_in.game import Game
 from throw_in.menuwidget import MenuWidget
 from version import VERSION
 
@@ -19,12 +20,16 @@ class MainWindow(QMainWindow):
         self.menu_widget: MenuWidget = MenuWidget(self._dir_media, VERSION)
         self.menu_widget.exit_signal.connect(self.close)
         self.menu_widget.start_signal.connect(self.start_game)
+        self.game: Game = Game()
+        self.game.setVisible(False)
 
         v_layout = QVBoxLayout()
         v_layout.addWidget(self.menu_widget)
+        v_layout.addWidget(self.game)
         widget = QWidget()
         widget.setLayout(v_layout)
         self.setCentralWidget(widget)
 
     def start_game(self) -> None:
-        pass
+        self.menu_widget.setVisible(False)
+        self.game.setVisible(True)
